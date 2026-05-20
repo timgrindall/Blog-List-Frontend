@@ -1,0 +1,46 @@
+
+.quicksand-title {
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: heavy;
+  font-style: normal;
+  color: yellowgreen;
+}
+
+.error {
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.message {
+  color: green;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.blog {
+  margin-top: 0.4em;
+  border: solid;
+  border-width: 1px;
+  /* width: 300px; */
+  padding: 0.5em;
+  min-width: 350px;
+  width: max-content
+}
+
+.blog p {
+  margin: 0.2em;
+}
+
+.blog a {
+  color: yellowgreen;
+}
