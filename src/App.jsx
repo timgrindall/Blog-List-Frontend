@@ -80,6 +80,9 @@ const App = () => {
           setBlogs((prevBlogs) => prevBlogs.filter((b) => b.id !== blog.id))
           setErrorMessage(`Deleted blog: ${blog.title} by ${blog.author}`)
           setMessageType('message')
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 3000)
         } catch (error) {
           console.error('Error deleting the blog:', error)
           setErrorMessage('Error: Entry could not be deleted')
@@ -89,9 +92,11 @@ const App = () => {
           }, 3000)
         }
       }
-    } else {
+    } else if (user) {
       window.alert('You can only delete blogs you added yourself.')
       // I was using setErrorMessage here but it was not visible to the user when I had scrolled down a bit, so I switched to window.alert for better visibility.
+    } else {
+      window.alert('You must be logged in to delete blogs.')
     }
   }
 
@@ -100,7 +105,8 @@ const App = () => {
 
     try {
       const newUser = await loginService.login({ username, password })
-      console.log(newUser)
+      // console.log('login successful, user data received:')
+      // console.log(newUser)
       setUser(newUser)
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(newUser))
 
@@ -134,6 +140,8 @@ const App = () => {
   useEffect(() => {
     if (user) {
       blogService.setToken(user.token)
+      console.log('user set in useEffect:')
+      console.log(user)
     }
   }, [user])
 
@@ -141,7 +149,8 @@ const App = () => {
     blogService.getAll().then(blogs => {
       const sortedBlogs = blogs.slice().sort((a, b) => b.likes - a.likes)
       setBlogs( sortedBlogs )
-      // console.log(sortedBlogs[0])
+      console.log('blogs fetched and sorted:')
+      console.log(sortedBlogs[0])
     })
   }, [])
 
@@ -150,17 +159,15 @@ const App = () => {
     <div>
       <h1 className="quicksand-title">Pala Pala Blogs</h1>
       <Notification message={errorMessage} type={messageType}/>
-      {user ? <p>{user.name} logged in &nbsp;<button onClick={handleLogout}>logout</button></p> : <p>log in to create an entry</p>}
+      {user ? <p>{user.name} logged in &nbsp;<button onClick={handleLogout}>logout</button></p> : null}
       { !user &&
-          <Togglable buttonLabel="Login">
-            <LoginForm
-              handleLogin={handleLogin}
-              setUsername={setUsername}
-              setPassword={setPassword}
-              username={username}
-              password={password}
-            />
-          </Togglable>
+          <LoginForm
+            handleLogin={handleLogin}
+            setUsername={setUsername}
+            setPassword={setPassword}
+            username={username}
+            password={password}
+          />
       }
 
       { user && (
@@ -172,21 +179,23 @@ const App = () => {
       )}
 
       <div style={{ marginTop: '1.5em' }}>
-        {user && expandedBlogIds.length > 0 && (
+        { expandedBlogIds.length > 0 && (
           <button onClick={collapseAll} style={{ marginBottom: '1rem' }}>
               Collapse all
           </button>
         )}
-        {blogs.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            isExpanded={expandedBlogIds.includes(blog.id)}
-            onToggle={() => toggleBlog(blog.id)}
-            onLike={handleLike}
-            onDelete={handleDelete}
-          />
-        ))}
+        <ul className="blog-list">
+          {blogs.map((blog) => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              isExpanded={expandedBlogIds.includes(blog.id)}
+              onToggle={() => toggleBlog(blog.id)}
+              onLike={handleLike}
+              onDelete={handleDelete}
+            />
+          ))}
+        </ul>
       </div>
     </div>
 

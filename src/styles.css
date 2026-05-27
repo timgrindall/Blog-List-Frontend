@@ -27,8 +27,16 @@
   margin-bottom: 10px;
 }
 
+ul.blog-list {
+  padding-left: 0;
+  margin-left: 0;
+}
+
 .blog {
+  list-style: none;
   margin-top: 0.4em;
+  margin-left: 0;
+  padding-left: 0;
   border: solid;
   border-width: 1px;
   /* width: 300px; */

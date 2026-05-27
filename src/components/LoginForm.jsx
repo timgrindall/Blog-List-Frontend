@@ -30,7 +30,7 @@ const LoginForm = ({
             />
           </label>
         </div>
-        <button type="submit">login</button>
+        <button type="submit" style={{ marginTop: '1rem' }}>login</button>
       </form>
     </div>
   )
