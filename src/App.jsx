@@ -11,6 +11,7 @@ import CreateBlogForm from './components/CreateBlogForm'
 import Togglable from './components/Togglable'
 
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { Container } from '@mui/material'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -153,30 +154,32 @@ const App = () => {
 
   return (
     <Router>
-      <div>
-        <Navigation user={user} handleLogout={handleLogout}/>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '-10px' }}>
-          <h1 className="quicksand-title">Pala Pala <span style={{ color: 'darkcyan' }}>Blogs</span></h1>
-          <span style={{ color: 'grey' }}>(means "writing" in Hawaiian)</span>
+      <Container maxWidth="md">
+        <div>
+          <Navigation user={user} handleLogout={handleLogout}/>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '-10px' }}>
+            <h1 className="quicksand-title">Pala Pala <span style={{ color: 'darkcyan' }}>Blogs</span></h1>
+            <span style={{ color: 'grey' }}>(means "writing" in Hawaiian)</span>
+          </div>
+          <Notification message={errorMessage} type={messageType}/>
+          <Routes>
+            <Route path="/" element={
+              <Blogs blogs={blogs} handleLike={handleLike} handleDelete={handleDelete} />
+            } />
+            <Route path="/login" element={
+              !user && <LoginForm
+                handleLogin={handleLogin}
+              />
+            } />
+            <Route path="/blog/:id" element={
+              <BlogView user={user} blogs={blogs} onLike={handleLike} handleDelete={handleDelete}/>
+            } />
+            <Route path="/create" element={
+              <CreateBlogForm user={user} createEntry={createEntry} />
+            } />
+          </Routes>
         </div>
-        <Notification message={errorMessage} type={messageType}/>
-        <Routes>
-          <Route path="/" element={
-            <Blogs blogs={blogs} handleLike={handleLike} handleDelete={handleDelete} />
-          } />
-          <Route path="/login" element={
-            !user && <LoginForm
-              handleLogin={handleLogin}
-            />
-          } />
-          <Route path="/blog/:id" element={
-            <BlogView user={user} blogs={blogs} onLike={handleLike} handleDelete={handleDelete}/>
-          } />
-          <Route path="/create" element={
-            <CreateBlogForm user={user} createEntry={createEntry} />
-          } />
-        </Routes>
-      </div>
+      </Container>
     </Router>
   )
 }
