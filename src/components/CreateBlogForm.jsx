@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Typography } from '@mui/material'
 
 const CreateBlogForm = ({ user, createEntry }) => {
   const [title, setTitle] = useState('')
@@ -23,7 +23,7 @@ const CreateBlogForm = ({ user, createEntry }) => {
     <div>
       { user && (
         <div className="blog-form">
-          <h2>Create new</h2>
+          <Typography variant="h5" component="h2" sx={{mt: 3}}>Create new</Typography>
           <form onSubmit={handleCreateEntry}>
             <div>
               <TextField
@@ -54,7 +54,7 @@ const CreateBlogForm = ({ user, createEntry }) => {
         </div>
       )}
       {!user && (
-        <p>You must be logged in to create an entry.</p>
+        <Typography variant="body1" sx={{ mt: 2, marginLeft: 1 }}>You must be logged in to create an entry.</Typography>
       )}
     </div>
   )

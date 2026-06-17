@@ -6,6 +6,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import Navigation from './components/Navigation'
+import Title from './components/Title'
 import LoginForm from './components/LoginForm'
 import CreateBlogForm from './components/CreateBlogForm'
 import Togglable from './components/Togglable'
@@ -32,7 +33,7 @@ const App = () => {
         [...prevBlogs, blog].sort((a, b) => b.likes - a.likes)
       )
       setErrorMessage(`${blog.title} by ${blog.author} added`)
-      setMessageType('message')
+      setMessageType('success')
       console.log('entry created')
       setTimeout(() => {
         setErrorMessage(null)
@@ -74,7 +75,7 @@ const App = () => {
           await blogService.remove(blog.id)
           setBlogs((prevBlogs) => prevBlogs.filter((b) => b.id !== blog.id))
           setErrorMessage(`Deleted blog: ${blog.title} by ${blog.author}`)
-          setMessageType('message')
+          setMessageType('success')
           setTimeout(() => {
             setErrorMessage(null)
           }, 3000)
@@ -108,7 +109,7 @@ const App = () => {
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(newUser))
 
       setErrorMessage('login successful')
-      setMessageType('message')
+      setMessageType('success')
       setTimeout(() => {
         setErrorMessage(null)
       }, 3000)
@@ -128,7 +129,7 @@ const App = () => {
     setUser(null)
     window.localStorage.removeItem('loggedBlogAppUser')
     setErrorMessage('You have been logged out')
-    setMessageType('message')
+    setMessageType('success')
     setTimeout(() => {
       setErrorMessage(null)
     }, 3000)
@@ -157,10 +158,7 @@ const App = () => {
       <Container maxWidth="md">
         <div>
           <Navigation user={user} handleLogout={handleLogout}/>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '-10px' }}>
-            <h1 className="quicksand-title">Pala Pala <span style={{ color: 'darkcyan' }}>Blogs</span></h1>
-            <span style={{ color: 'grey' }}>(means "writing" in Hawaiian)</span>
-          </div>
+          {/* <Title /> */}
           <Notification message={errorMessage} type={messageType}/>
           <Routes>
             <Route path="/" element={

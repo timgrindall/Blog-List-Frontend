@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Typography } from '@mui/material'
 
 const LoginForm = ({ handleLogin }) => {
 
@@ -18,13 +18,14 @@ const LoginForm = ({ handleLogin }) => {
 
   return (
     <div>
-      <h2>Login</h2>
+      <Typography variant="h5" component="h2" sx={{mt: 3}}>Login</Typography>
       <form onSubmit={onSubmit}>
         <TextField
           label="Username"
           style={{ marginTop: '1rem', display: 'block' }}
           value={username}
           onChange={({ target }) => setUsername(target.value)}
+          autoComplete="username"
         />
         <TextField
           label="Password"
@@ -32,6 +33,7 @@ const LoginForm = ({ handleLogin }) => {
           style={{ marginTop: '1rem', display: 'block' }}
           value={password}
           onChange={({ target }) => setPassword(target.value)}
+          autoComplete="current-password"
         />
         <Button type="submit" variant="contained" style={{ marginTop: '1rem', display: 'block' }}>login</Button>
       </form>
